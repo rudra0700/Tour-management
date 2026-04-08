@@ -8,8 +8,8 @@ interface TMeta {
 }
 
 interface TResponse<T> {
-  success: boolean;
   statusCode: number;
+  success: boolean;
   message: string;
   data: T;
   meta?: TMeta;

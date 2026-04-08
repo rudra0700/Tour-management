@@ -5,9 +5,11 @@
   "types": "module",
   "main": "index.js",
   "scripts": {
+    "start": "node ./dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
-    "lint": "npx eslint ./src"
+    "lint": "npx eslint ./src",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +23,7 @@
     "@types/passport": "^1.0.17",
     "@types/passport-google-oauth20": "^2.0.17",
     "@types/passport-local": "^1.0.38",
+    "@types/pdfkit": "^0.17.5",
     "axios": "^1.13.6",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.9.0",
@@ -39,6 +42,8 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
+    "pdfkit": "^0.18.0",
+    "redis": "^5.11.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
