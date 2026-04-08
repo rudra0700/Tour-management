@@ -1,5 +1,6 @@
-
 import { deleteImageFromCLoudinary } from "../../config/cloudinary.config";
+import { divisionSearchableFields } from "../../constant";
+import { QueryBuilder } from "../../utils/QueryBuilder";
 import { IDivision } from "./division.interface";
 import { Division } from "./division.model";
 
@@ -14,14 +15,35 @@ const createDivision = async (payload: IDivision) => {
   return division;
 };
 
-const getAllDivisions = async () => {
-  const divisions = await Division.find({});
-  const totalDivisions = await Division.countDocuments();
+// const getAllDivisions = async () => {
+//   const divisions = await Division.find({});
+//   const totalDivisions = await Division.countDocuments();
+//   return {
+//     data: divisions,
+//     meta: {
+//       total: totalDivisions,
+//     },
+//   };
+// };
+
+const getAllDivisions = async (query: Record<string, string>) => {
+  const queryBuilder = new QueryBuilder(Division.find(), query);
+
+  const divisionsData = queryBuilder
+    .search(divisionSearchableFields)
+    .filter()
+    .sort()
+    .fields()
+    .paginate();
+
+  const [data, meta] = await Promise.all([
+    divisionsData.build(),
+    queryBuilder.getMeta(),
+  ]);
+
   return {
-    data: divisions,
-    meta: {
-      total: totalDivisions,
-    },
+    data,
+    meta,
   };
 };
 
@@ -52,8 +74,8 @@ const updateDivision = async (id: string, payload: Partial<IDivision>) => {
     returnDocument: "after",
   });
 
-  if(payload.thumbnail && existingDivision.thumbnail){
-    await deleteImageFromCLoudinary(existingDivision.thumbnail)
+  if (payload.thumbnail && existingDivision.thumbnail) {
+    await deleteImageFromCLoudinary(existingDivision.thumbnail);
   }
 
   return updatedDivision;

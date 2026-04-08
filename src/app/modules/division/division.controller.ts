@@ -21,15 +21,27 @@ const createDivision = catchAsync(
   },
 );
 
+// const getAllDivisions = catchAsync(async (req: Request, res: Response) => {
+//   const result = await DivisionService.getAllDivisions();
+//   sendResponse(res, {
+//     statusCode: 200,
+//     success: true,
+//     message: "Divisions retrieved",
+//     data: result.data,
+//     meta: result.meta.total,
+//   });
+// });
+
 const getAllDivisions = catchAsync(async (req: Request, res: Response) => {
-  const result = await DivisionService.getAllDivisions();
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: "Divisions retrieved",
-    data: result.data,
-    meta: result.meta,
-  });
+    const query = req.query;
+    const result = await DivisionService.getAllDivisions(query as Record<string, string>);
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Divisions retrieved",
+        data: result.data,
+        meta: result.meta,
+    });
 });
 
 const getSingleDivision = catchAsync(async (req: Request, res: Response) => {
