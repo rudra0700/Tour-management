@@ -104,19 +104,19 @@ const successPayment = async (query: Record<string, string>) => {
       { runValidators: true, session },
     );
 
-    // await sendEmail({
-    //   to: (updatedBooking.user as unknown as IUser).email,
-    //   subject: "Your Booking Invoice",
-    //   templateName: "invoice",
-    //   templateData: invoiceData,
-    //   attachments: [
-    //     {
-    //       filename: "invoice.pdf",
-    //       content: pdfBuffer,
-    //       contentType: "application/pdf",
-    //     },
-    //   ],
-    // });
+    await sendEmail({
+      to: (updatedBooking.user as unknown as IUser).email,
+      subject: "Your Booking Invoice",
+      templateName: "invoice",
+      templateData: invoiceData,
+      attachments: [
+        {
+          filename: "invoice.pdf",
+          content: pdfBuffer,
+          contentType: "application/pdf",
+        },
+      ],
+    });
     await session.commitTransaction(); //transaction
     session.endSession();
 
