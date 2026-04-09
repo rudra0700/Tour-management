@@ -104,6 +104,8 @@ const successPayment = async (query: Record<string, string>) => {
       { runValidators: true, session },
     );
 
+    await session.commitTransaction(); //transaction
+    session.endSession();
     await sendEmail({
       to: (updatedBooking.user as unknown as IUser).email,
       subject: "Your Booking Invoice",
@@ -118,8 +120,6 @@ const successPayment = async (query: Record<string, string>) => {
       ],
     });
 
-    await session.commitTransaction(); //transaction
-    session.endSession();
     return { success: true, message: "Payment Completed Successfully" };
   } catch (error) {
     await session.abortTransaction(); // rollback
